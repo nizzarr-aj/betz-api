@@ -19,11 +19,17 @@ export default async function handler(req, res) {
       });
     }
 
-    const { live, date, league, season, timezone } = req.query;
+    const { date, league, season, timezone } = req.query;
+
     const params = new URLSearchParams();
 
-    if (live === "all") params.set("live", "all");
-    if (date) params.set("date", date);
+    if (date) {
+      params.set("date", date);
+    } else {
+      const today = new Date().toISOString().slice(0, 10);
+      params.set("date", today);
+    }
+
     if (league) params.set("league", league);
     if (season) params.set("season", season);
     if (timezone) params.set("timezone", timezone);
